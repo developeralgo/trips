@@ -1,24 +1,42 @@
 <template>
   <UContainer>
-    <div class="flex flex-col max-w-sm gap-6">
+    <div class="flex flex-col max-w-sm gap-6 mt-6">
+      <label for="">Date</label>
       <UInput type="date" placeholder="Date" v-model="record.date" />
-      <UInput type="time" placeholder="Time" v-model="record.startTime" />
-      <UInput type="time" placeholder="Time" v-model="record.endTime" />
-      <UInput
-        type="number"
-        placeholder="Starting KM"
-        v-model="record.startKm"
-      />
-      <UInput type="number" placeholder="Ending KM" v-model="record.endKm" />
+      <div class="grid grid-cols-2 gap-4">
+        <label for="">Start Time</label>
+        <UInput type="time" placeholder="Time" v-model="record.startTime" />
+        <label for="">End Time</label>
+        <UInput type="time" placeholder="Time" v-model="record.endTime" />
+      </div>
+      <div class="grid grid-cols-2 gap-4">
+        <label for=""> Start Km</label>
+        <UInput
+          type="number"
+          placeholder="Starting KM"
+          v-model="record.startKm"
+        />
+        <label for="">End Km</label>
+        <UInput type="number" placeholder="Ending KM" v-model="record.endKm" />
+      </div>
+      <label for="">Earnings</label>
       <UInput type="number" placeholder="earnings" v-model="record.earnings" />
-      <UButton @click="resetRecords">Reset Record</UButton>
-      <UButton @click="addRecord">Add Record</UButton>
+      <div class="flex gap-6">
+        <UButton @click="addRecord" class="mx-auto" icon="i-lucide-plus"
+          >Add Record</UButton
+        >
+        <UButton @click="resetRecords" class="mx-auto" icon="" color="warning"
+          >Reset Record</UButton
+        >
+      </div>
     </div>
-    <div>{{ record }}</div>
-    <div>
-      <UButton @click="getAllRecords">Refresh Records</UButton>
-    </div>
-    <div>
+    <USeparator label="Trips List" class="my-12" />
+    <div class="">
+      <div>
+        <UButton @click="getAllRecords" color="info" icon="i-lucide-refresh-ccw"
+          >Refresh Records</UButton
+        >
+      </div>
       <UTable :data="records" class="flex-1" :columns="columns" sticky />
     </div>
   </UContainer>
@@ -47,7 +65,6 @@ let records = ref([]);
 
 async function getAllRecords() {
   const response = await $fetch("/api/getAllRecords");
-  console.log(response);
   records.value = response.data.map((element) => {
     return { ...element, link: `/records/${element._id}` };
   });

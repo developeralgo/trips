@@ -71,19 +71,6 @@
             />
           </div>
         </div>
-
-        <!-- <UInput type="date" placeholder="Date" v-model="record.date" /> -->
-        <!-- <UInput type="time" placeholder="Time" v-model="record?.startTime" /> -->
-        <!-- <UInput type="time" placeholder="Time" v-model="record?.endTime" /> -->
-        <!-- <UInput
-          type="number"
-          placeholder="Starting KM"
-          v-model="record?.startKm"
-        /> -->
-        <!-- <UInput type="number" placeholder="Ending KM" v-model="record?.endKm" /> -->
-        <!-- <UInput type="number" placeholder="earnings" v-model="record?.earnings" /> -->
-        <!-- <UButton @click="resetRecords">Reset Record</UButton>
-        <UButton @click="addRecord">Add Record</UButton> -->
       </div>
       <UButton @click="updateRecord">Update Record</UButton>
     </UCard>
@@ -158,6 +145,7 @@ async function updateRecord() {
       startTime: record.value.startTime,
       endTime: record.value.endTime,
       endDateTime: endDateTime,
+      endKm: record.value.endKm,
       duration: durationMinutes,
       distance,
       earnings: record.value.earnings,
@@ -167,5 +155,13 @@ async function updateRecord() {
     },
   });
   console.log(response);
+  if (response.data) {
+    toast.add({
+      title: "Success",
+      description: "Record has been updated",
+      type: "foreground",
+    });
+    return navigateTo("/");
+  }
 }
 </script>
